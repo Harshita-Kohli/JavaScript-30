@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS Drum Kit</title>
+    <link rel="stylesheet" href="day1.css">
+</head>
+
+<body>
+
+
+    <div class="keys">
+        <div data-key="65" class="key">
+            <kbd>A</kbd>
+            <span class="sound">clap</span>
+        </div>
+        <div data-key="83" class="key">
+            <kbd>S</kbd>
+            <span class="sound">hihat</span>
+        </div>
+        <div data-key="68" class="key">
+            <kbd>D</kbd>
+            <span class="sound">kick</span>
+        </div>
+        <div data-key="70" class="key">
+            <kbd>F</kbd>
+            <span class="sound">openhat</span>
+        </div>
+        <div data-key="71" class="key">
+            <kbd>G</kbd>
+            <span class="sound">boom</span>
+        </div>
+        <div data-key="72" class="key">
+            <kbd>H</kbd>
+            <span class="sound">ride</span>
+        </div>
+        <div data-key="74" class="key">
+            <kbd>J</kbd>
+            <span class="sound">snare</span>
+        </div>
+        <div data-key="75" class="key">
+            <kbd>K</kbd>
+            <span class="sound">tom</span>
+        </div>
+        <div data-key="76" class="key">
+            <kbd>L</kbd>
+            <span class="sound">tink</span>
+        </div>
+    </div>
+
+    <audio data-key="65" src="sounds/clap.wav"></audio>
+    <audio data-key="83" src="sounds/hihat.wav"></audio>
+    <audio data-key="68" src="sounds/kick.wav"></audio>
+    <audio data-key="70" src="sounds/openhat.wav"></audio>
+    <audio data-key="71" src="sounds/boom.wav"></audio>
+    <audio data-key="72" src="sounds/ride.wav"></audio>
+    <audio data-key="74" src="sounds/snare.wav"></audio>
+    <audio data-key="75" src="sounds/tom.wav"></audio>
+    <audio data-key="76" src="sounds/tink.wav"></audio>
+
+    <script>
+        // event is an object full of data describing what happened when i clicked a key on keyboard
+        // we will get all info about the key we pressed by writing console.log(e) but we are concerned with the key code and to play a sound corresponding to it...so we use a query selector
+        // sometimes we get null for some keys, because we don't have any corresponding audio for that key-code....eg if we hit q ..console shows null becoz we have not defined an audio for key-code 81
+        // so for such cases, we can avoid running this function(e) by writing if(!audio) return
+        // else, simply play the audio. We have to reset the audio's current time to 0 so as to rewind to start i.e. if we hit the same key repeatedly, we want it to play multiple times like AAAAA, FFF, DDD etc
+
+        // now we also want to select the key on the webpage so that it gets highlighted and raised a bit so we use query selector
+        // now to add the transform property to key, we must add class "playing" to it 
+        window.addEventListener('keydown', function (e) {
+            const audio = document.querySelector(`audio[data-key = "${e.keyCode}"]`);
+            console.log(audio);
+
+            if (!audio) {
+                return;
+            }
+            audio.currentTime = 0;
+            audio.play();
+            const key = document.querySelector(`.key[data-key = "${e.keyCode}"]`);
+            // console.log(key);
+            key.classList.add('playing');
+
+        });
+
+        // now we select all the keys from dom and for each key for which transitionend event has been fired, we listen to the event and call a function "removeTransform()" which will check if transition has ended for the transform property and then it will remove the class 'playing' from that key to remove all the effects of transform, border etc that were there in the 'playing' class    
+        const keys = document.querySelectorAll('.key');
+        keys.forEach(key => key.addEventListener('transitionend', removeTransform));
+        function removeTransform(e) {
+            // console.log(e);
+            if (e.propertyName !== "transform") {
+                return;
+            }
+            else {
+                // console.log(this);
+                this.classList.remove('playing');
+            }
+        } 
+    </script>
+</body>
+</html>
