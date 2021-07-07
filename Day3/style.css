@@ -1,0 +1,52 @@
+:root{
+    --spacing:10px;
+    --blur:10px;
+    --base:red;
+}
+
+/* misc styles, nothing to do with CSS variables */
+body {
+    text-align: center;
+    background: #193549;
+    color: white;
+    font-family: 'helvetica neue', sans-serif;
+    font-weight: 100;
+    font-size: 50px;
+  }
+  .heading{
+      
+       display:block;
+      margin:auto;
+      text-align:center;
+      padding-bottom:15px;
+  }
+  /* outer container that contains controls and image */
+.container{
+display:flex;
+
+}
+  .controls {
+    margin-bottom: 50px;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    text-align:left;
+    padding-left:15px;
+  }
+  .item{
+      width:500px;
+  }
+
+  input {
+    width: 100px;
+  }
+  img{
+      padding:var(--spacing);
+      background-color: var(--base);
+      filter:blur(var(--blur));
+  }
+  /* the element belonging to the highlighter(hl) class is going to have a color using css variables */
+  .hl{
+      color:var(--base);
+  }
