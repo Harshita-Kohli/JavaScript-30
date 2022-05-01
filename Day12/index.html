@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+    Let's Detect!!!! Konami Code Detection
+<!-- A basic key sequence detection app that logs and stores the keys pressed by the user and then every single time the user keyups, 
+    we check if the pressed sequence matches the one we are looking for -->
+
+    <!-- We will be detecting a sequence of keys entered by the user and store it in an array.
+     We can then check if the entered sequence matches the secret code that we wanted to match with. If so, we do something funny -->
+    <script>
+        const pressed = [];
+        const secretCode = 'harshita';
+        window.addEventListener('keyup',(event)=>{
+            pressed.push(event.key);//we push all the keys pressed by the user into the pressed array
+            pressed.splice(-secretCode.length-1, pressed.length-secretCode.length);//it splices the extra characters from the starting to keep the length of the pressed array same as length of secretCode
+            //here -ve start means it will begin that many elements from the end of the array, then it will delete the extra no. of elements from there
+            //extra number of elements = pressed.length-secretCode. Eg: pressed = 'MissHarshita', then, it will be spliced such that Miss is removed from there
+            console.log(pressed);
+            if(pressed.join('').includes(secretCode))
+            {
+                cornify_add();
+                //console.log('Ding Ding');
+            }
+        })
+        
+    </script>
+</body>
+</html>
